@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>분실물 알림이</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gugi&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Dongle:wght@300&family=Gugi&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/1c6437545f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="logodiv">
+        <a href="/">
+            <img id="logo" src="/static/logo.png" alt="logo">
+        </a>
+        <h1>분실물 알림이</h1>
+    </div>
+    <div class="container">
+        <div class="btn-group">
+            <div id="cellphone" class="btn">휴대폰</div>
+            <div id="wireless-earphones" class="btn">무선 이어폰</div>
+            <div class="btn active">분실물을 선택하세요</div>
+            <div id="wallet" class="btn">지갑</div>
+            <div id="bag" class="btn">가방</div>
+        </div>
+        <div class="container2">
+            <button onclick="getItemsByCategory()" class="button btnBorder btnBlueGreen">검색하기</button>
+          </div>
+    </div>
+
+    <div id="result">검색 결과가 여기에 표시됩니다.</div>
+
+    <aside class="side-bar">
+        <section class="side-bar__icon-box">
+            <section class="side-bar__icon-1">
+                <div style="height: 3px;"></div>
+                <div style="height: 3px;"></div>
+                <div style="margin-top: 1px; height: 3px;"></div>
+            </section>
+        </section>
+        <ul>
+            <li>
+                <a class="sidebar-a" href="/"><i class="fa-solid fa-house"></i></a>
+            </li>
+            <li>
+                <a class="sidebar-a">분실물</a>
+                <ul>
+                    <li><a href="#">분실된 휴대폰 모두 보기</a></li>
+                    <li><a href="#">분실된 무선 이어폰 모두 보기</a></li>
+                    <li><a href="#">분실된 지갑 모두 보기</a></li>
+                    <li><a href="#">분실된 가방 모두 보기</a></li>
+                    <li><a href="#">분실물 모두 보기</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="sidebar-a">분실물 찾는 법</a>
+                <ul>
+                    <li><a href="https://m.blog.naver.com/nyjloving/222775764518" target="_blank">대중교통별 분실물 찾는 방법 (링크) </a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="sidebar-a">menu4</a>
+            </li>
+        </ul>
+    </aside>
+
+    <script>
+        function getItemsByCategory() {
+            var buttons = document.getElementsByClassName('btn');
+            var category;
+            for (var i = 0; i < buttons.length; i++) {
+                if (buttons[i].classList.contains('active')) {
+                    category = buttons[i].id;
+                    break;
+                }
+            }
+
+            var resultDiv = document.getElementById('result');
+
+            // Ajax로 서버에 데이터 요청
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get_item?user_input=' + category, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = xhr.responseText;
+                    resultDiv.innerHTML = response;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+    <!-- 티처블 머신 -->
+    <!-- <div id="webcam">
+        <div>Teachable Machine Image Model</div>
+        <button id="webcam-bt" type="button" onclick="init()">Start</button>
+        <div id="webcam-container"></div>
+        <div id="label-container"></div>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    </div> -->
+    <div id="pagination">
+        <ul>
+            {% for page_num in range(1, 11) %}
+                <li><a href="{{ url_for('pagination_route', page=page_num) }}">{{ page_num }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- <script type="text/javascript">
+        // More API functions here:
+        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+        // the link to your model provided by Teachable Machine export panel
+        const URL = "{{ url_for('static', filename='my_model/') }}";
+
+        let model, webcam, labelContainer, maxPredictions;
+
+        // Load the image model and setup the webcam
+        async function init() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            // load the model and metadata
+            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+            // or files from your local hard drive
+            // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            // Convenience function to setup a webcam
+            const flip = true; // whether to flip the webcam
+            webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+            await webcam.setup(); // request access to the webcam
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            // append elements to the DOM
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        }
+
+        async function loop() {
+            webcam.update(); // update the webcam frame
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        // run the webcam image through the image model
+        async function predict() {
+            // predict can take in an image, video or canvas html element
+            const prediction = await model.predict(webcam.canvas);
+            for (let i = 0; i < maxPredictions; i++) {
+                const classPrediction =
+                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+                labelContainer.childNodes[i].innerHTML = classPrediction;
+            }
+        }
+    </script> -->
+
+<script> //사이드바 토글
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarItems = document.querySelectorAll('.sidebar-a');
+
+    sidebarItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            const submenu = this.nextElementSibling;
+            submenu.classList.toggle('show-submenu');
+        });
+    });
+
+    const sidebarIcon = document.querySelector('.side-bar__icon-box');
+
+    sidebarIcon.addEventListener('click', function() {
+        const sidebar = document.querySelector('.side-bar');
+        sidebar.classList.toggle('show-sidebar');
+    });
+});
+
+</script>
+
+<script> //페이지네이션
+    var currentPage = 1;
+    var itemsPerPage = 10;
+
+    function getItemsByPage(page) {
+        var resultDiv = document.getElementById('result');
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/get_items_by_page?page=' + page, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = xhr.responseText;
+                resultDiv.innerHTML = response;
+            }
+        };
+        xhr.send();
+    }
+
+    function displayItems(startIndex, endIndex) {
+        var paginationDiv = document.getElementById('pagination');
+        paginationDiv.innerHTML = '';
+
+        var ul = document.createElement('ul');
+
+        // 이전 버튼 처리
+        if (startIndex > 1) {
+            var prevButton = document.createElement('button');
+            prevButton.textContent = '이전';
+            prevButton.addEventListener('click', function () {
+                currentPage -= 1;
+                displayItems(startIndex - 10, endIndex - 10);
+            });
+            paginationDiv.appendChild(prevButton);
+        }
+
+        for (var i = startIndex; i <= endIndex; i++) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.setAttribute('href', "/pagination/" + i);
+            a.textContent = i;
+            if (i === currentPage) {
+                a.style.fontWeight = "bold";
+                a.style.color = "black";
+            }
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+
+        paginationDiv.appendChild(ul);
+
+        // 다음 버튼 처리
+        if (currentPage * itemsPerPage < 100) {
+            var nextButton = document.createElement('button');
+            nextButton.textContent = '다음';
+            nextButton.addEventListener('click', function () {
+                currentPage++;
+                displayItems(currentPage * itemsPerPage - 9, currentPage * itemsPerPage);
+            });
+            paginationDiv.appendChild(nextButton);
+        }
+    }
+
+    displayItems(1, 10); // 초기 페이지 설정
+
+</script>
+
+    <script> //카테고리 버튼들 (애니메이션)
+        const pathLength = 68 * 2 + 200;
+
+        class BtnGroup {
+        constructor(group) {
+            this.group = group;
+            this.buttons = Array.prototype.slice.call(
+            this.group.querySelectorAll('.btn'));
+
+            this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            this.svg.setAttribute('viewbox',
+            `-1 -1 ${160 * this.buttons.length + 2} 42`);
+
+            this.path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            this.currentPath = 'M -80, 40';
+            this.currentIndex = -1;
+            this.activateIndex(
+            this.buttons.indexOf(
+            this.group.querySelector('.active')));
+
+
+            this.group.appendChild(this.svg);
+            this.svg.appendChild(this.path);
+            this.refreshPath();
+            for (const button of this.buttons) {
+            button.addEventListener('click',
+            e => this.onClick(e));
+
+            }
+        }
+
+        onClick(e) {
+            const index = this.buttons.indexOf(e.srcElement || e.target);
+            this.activateIndex(index);
+        }
+
+        refreshPath() {
+            this.path.setAttributeNS(null, 'd', this.currentPath);
+            this.path.style.strokeDashoffset = (-this.path.getTotalLength() + pathLength) * 0.9965;
+        }
+
+        center(index) {
+            return index * 160 + 80;
+        }
+
+        removeClass(str) {
+            if (this.buttons[this.currentIndex]) {
+            this.buttons[this.currentIndex].classList.remove(str);
+            }
+        }
+
+        addClass(str) {
+            if (this.buttons[this.currentIndex]) {
+            this.buttons[this.currentIndex].classList.add(str);
+            }
+        }
+
+        activateIndex(index) {
+            const lastCenter = this.center(this.currentIndex);
+            const nextCenter = this.center(index);
+            const offset = index < this.currentIndex ? -50 : 50;
+            const curve = index < this.currentIndex ? -30 : 30;
+            this.currentPath += `
+            L ${lastCenter + offset}, 40
+            C ${lastCenter + offset + curve}, 40
+                ${lastCenter + offset + curve},  0
+                ${lastCenter + offset},  0
+            L ${lastCenter - offset},  0
+            C ${lastCenter - offset - curve},  0
+                ${lastCenter - offset - curve}, 40
+                ${lastCenter - offset}, 40
+            L ${nextCenter + offset}, 40
+            C ${nextCenter + offset + curve}, 40
+                ${nextCenter + offset + curve},  0
+                ${nextCenter + offset},  0
+            L ${nextCenter - offset},  0
+            C ${nextCenter - offset - curve},  0
+                ${nextCenter - offset - curve}, 40
+                ${nextCenter - offset}, 40
+            L ${nextCenter}, 40
+            `;
+            this.removeClass('active');
+            this.currentIndex = index;
+            this.addClass('active');
+            this.buttons.forEach((button, idx) => {
+                if (idx === index) {
+                    button.style.fontWeight = 'bold';
+                    button.style.color = 'black';
+                } else {
+                    button.style.color = 'gray';
+                    button.style.fontWeight = 'bold';
+                }
+            });
+            this.refreshPath();
+        }}
+        ;
+
+        const groups = Array.prototype.slice.call(document.querySelectorAll('.btn-group'));
+        for (const group of groups) {
+        console.log(new BtnGroup(group));
+        }
+    </script>
+</body>
+</html>
