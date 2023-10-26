@@ -1,336 +1,368 @@
+
 body{
-    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);    
-    margin: 0px;
-    padding: 0px;
-    height: 100vh;
-    font-family: 'Dongle', sans-serif;
-    font-size: 35px;
-    overflow: hidden;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);    
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  font-family: 'Dongle', sans-serif;
+  font-size: 35px;
+  overflow: hidden;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 h1{
-    text-align: center;
-    font-size: 50px;
-    font-family: 'Gugi', sans-serif;
-    font-weight: lighter;
-    margin: 0px;
+  text-align: center;
+  font-size: 50px;
+  font-family: 'Gugi', sans-serif;
+  font-weight: lighter;
+  margin: 0px;
 }
 
 #logo{
-    width: 150px;
+  width: 150px;
 }
 
 #logodiv{
-    text-align: center;
-    margin-top: 30px;
+  text-align: center;
+  margin-top: 30px;
 }
 
 .btn-group {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
-  .btn-group .btn {
-    cursor: pointer;
-    float: left;
-    height: 40px;
-    width: 160px;
-    line-height: 40px;
-    text-align: center;
-    transition: font-size 0.3s ease;
-    font-family: 'Dongle', sans-serif;
-    font-size: 30px;
+.btn-group .btn {
+  cursor: pointer;
+  float: left;
+  height: 40px;
+  width: 160px;
+  line-height: 40px;
+  text-align: center;
+  transition: font-size 0.3s ease;
+  font-family: 'Dongle', sans-serif;
+  font-size: 30px;
 
-  }
+}
 
-  .btn-group .btn:active {
-    font-size: 0.8em;
-  }
-  .btn-group svg {
-    z-index: -1;
-    top: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  .btn-group path {
-    fill: none;
-    stroke: #19cc95;
-    stroke-dasharray: 334.9, 99999;
-    transition: stroke-dashoffset 1s cubic-bezier(0, 0.8, 0.2, 1);
-    stroke-width: 3; /*움직이는 선 굵기*/
-  } 
+.btn-group .btn:active {
+  font-size: 0.8em;
+}
+.btn-group svg {
+  z-index: -1;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.btn-group path {
+  fill: none;
+  stroke: #84fab0;
+  stroke-dasharray: 334.9, 99999;
+  transition: stroke-dashoffset 1s cubic-bezier(0, 0.8, 0.2, 1);
+  stroke-width: 3; /*움직이는 선 굵기*/
+}
+
+/* #gradient{
+  stroke: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+} */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  font-family: sans-serif;
+  font-weight: 300;
+  color: #000000;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 300px;
+}
+@media (max-width: 30em) {
   body {
-    margin: 0;
-    padding: 0;
+    zoom: 0.75;
   }
- .container {
-    font-family: sans-serif;
-    font-weight: 300;
-    color: #000000;
-    text-align: center;
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-top: 300px;
 }
-  @media (max-width: 30em) {
-    body {
-      zoom: 0.75;
-    }
+@media (max-width: 25em) {
+  body {
+    zoom: 0.5;
   }
-  @media (max-width: 25em) {
-    body {
-      zoom: 0.5;
-    }
-  }
+}
 
 .frame {
-    width: 90%;
-    margin: 40px auto;
-    text-align: center;
-  }
+  width: 90%;
+  margin: 40px auto;
+  text-align: center;
+}
 
 .container2{
-    padding: 5px;
+  padding: 5px;
 }
 
 button.button {
-    display: block;
-    position: relative;
-    width: 120px;
-    padding: 0;
-    text-align: center;
-    line-height: 50px;
-    color: #000000;
-    border-radius: 5px;
-    border: solid 0px;
-    transition: all 0.2s ;
-    background-color:#19cc95;
-    margin: 0 auto;
-    margin-top: 20px;
-    font-family: 'Dongle', sans-serif;
-    font-size: 35px;
-    cursor: pointer;
-  }
+  display: block;
+  position: relative;
+  width: 120px;
+  padding: 0;
+  text-align: center;
+  line-height: 50px;
+  color: #000000;
+  border-radius: 5px;
+  border: solid 0px;
+  transition: all 0.2s ;
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  margin: 0 auto;
+  margin-top: 20px;
+  font-family: 'Dongle', sans-serif;
+  font-size: 35px;
+  cursor: pointer;
+}
 
-  .btnBlueGreen.btnBorder {
-    box-shadow: 0px 0px 0px 0px #21825B;
-  }
+.btnBlueGreen.btnBorder {
+  box-shadow: 0px 0px 0px 0px #21825B;
+}
 
-  .btnBlueGreen.btnBorder:hover {
-    box-shadow: 0px 0px 0px 5px #21825B;
-    font-weight: bold;
-  }
+.btnBlueGreen.btnBorder:hover {
+  box-shadow: 0px 0px 0px 5px #21825B;
+  font-weight: bold;
+}
 
 #result{
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    text-align: center;
-    line-height: 350px;
-    margin: 0 auto;
-    border: 2px solid black;
-    border-radius: 4px;
-    width: 600px;
-    height: 40%;
-    padding: 10px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  text-align: center;
+  line-height: 350px;
+  margin: 0 auto;
+  border: 2px solid black;
+  border-radius: 4px;
+  width: 600px;
+  height: 40%;
+  padding: 10px;
 }
 
 #webcam{
-    margin-top: 100px;
-    text-align: center;
+  margin-top: 100px;
+  text-align: center;
 }
 
 #pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 200px;
+  display: flex;
+  justify-content: center;
+  margin-top: 150px;
 }
 
 #pagination ul {
-    list-style-type: none;
-    display: flex;
-    padding: 0;
-    width: auto;
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  width: auto;
 }
 
 #pagination ul li {
-    margin: 0 5px;
+  margin: 0 5px;
 }
 
 #pagination ul li:hover{
-    border-radius: 50%;
-    border: 0px;
+  border-radius: 50%;
+  border: 0px;
 }
 
 #pagination ul li a {
-    text-decoration: none;
-    padding: 10px;
-    color: rgb(155, 151, 151);
+  text-decoration: none;
+  padding: 10px;
+  color: rgb(155, 151, 151);
 }
 
 #pagination ul li a:hover{
-    color: black;
-    font-weight: bold;
+  color: black;
+  font-weight: bold;
 }
 
 #pagination button {
-    margin-left: 10px;
-    color: black;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: 'Dongle', sans-serif;
-    font-size: 30px;
-    font-weight: bold;
+  margin-left: 10px;
+  color: black;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Dongle', sans-serif;
+  font-size: 30px;
+  font-weight: bold;
 }
 
-body, ul, li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-ul{
-    font-size: 35px;
-    border-radius: 4px;
-}
-  
-  .sidebar-a {
-    color: inherit;
-    text-decoration: none;
-    width: 166px;
+.container3 {
+  position: relative;
 }
 
-.side-bar ul ul {
-  display: none;
-  position: absolute;
+.container3>.sidebar {
+  background-color: rgba( 255, 255, 255, 0.5 );
+
+  /* sidebar는 화면을 기준으로 배치 */
+  position: fixed;
+  left: 0;
   top: 0;
-  right: 100%;
-  width: 100%;
+  bottom: 0;
+  width: 15rem;
+  padding: 1rem;
+  z-index: 9999;
+  border-radius: 10px;
 }
 
-.show-submenu {
-  display: block !important;
+.sidebar-div{
+  text-align: center;
+  border: solid 1px black;
+  border-radius: 5px;
+  margin-top: 20px;
 }
 
-
-#coverdiv{
-  background-color: #19cc95;
-  height: 1000px;
-  float: right;
+.sidebar-div:hover{
+  /* border: #19cc95 solid 1px; */
 }
 
-  .side-bar > ul ul {
+.sidebar-a{
+
+}
+
+.sidebar-a:hover{
+  color: black;
+  font-weight: bold;
+  width: 240px;
+}
+
+/*
+숨김 상태의 처리
+- 사이드바는 화면 밖으로 이동시킴
+- 컨텐츠영역은 사이드바가 사라진 자리를 채움
+*/
+.container3.collapse {}
+
+.container3.collapse>.sidebar {
+  margin-left:-20rem;
+}
+
+.container3.collapse>.contents {
+  left:0;
+}
+
+/* 부드럽게 이동하도록 transition 처리 */
+.container3 > .sidebar {
+  transition-property: margin-left;
+  transition-duration:0.2s;
+  transition-timing-function: linear;
+}
+
+.sidebar ul {
     display: none;
-    cursor: pointer;
-  }
-  
-  :root {
-    --side-bar-width: 270px;
-    --side-bar-height: 242vh;
-  }
-  
-  .side-bar {
-    position: fixed;    
-    background-color: rgba(0, 0, 0, 0.5);
-    width: var(--side-bar-width);
-    min-height: var(--side-bar-height);   
-    margin-top: calc((100vh - var(--side-bar-height)) / 2);    
-    transform: translateX(calc(var(--side-bar-width) * -0.8));
-    transition: transform 0.5s;
+    padding-left: 20px;
 }
 
-.side-bar.show-sidebar {
-    transform: translate(-20px, 0);
-}
-  
-  .side-bar__icon-box {
-    display: flex;
-    justify-content: flex-end;
-    width: 50px;
-    margin-left: 220px;
-  }
-  
-  .side-bar__icon-1 {
-    position: relative;
-    width: 23px;
-    height: 17px;
-    margin: 15px;
-    margin-top: 20px;
-    cursor: pointer;
-  }
-  
-  :root {
-    --side-bar__icon: .5s;
-  }
-  
-  .side-bar__icon-1 > div {
-    position: absolute;
-    width: 100%;
-    height: 20%;
-    background-color: white;
-  }
-  
-  .side-bar__icon-1 > div:nth-of-type(1) {
-    top: 0;
-    width: auto;
-    left: 0;
-    right: 0;
-
-  }
-  
-  .side-bar__icon-1 > div:nth-of-type(2) {
-    top: 40%;
-  }
-  
-  .side-bar__icon-1 > div:nth-of-type(3) {
-    top: 80%;
-    left: auto;
-    right: 0;
-  }
-  
-  .side-bar ul > li > a {
+.sidebar.open ul {
     display: block;
-    color: white;
-    font-size: 1.4rem;
+}
+
+.sidebar ul li {
+    padding: 10px 0;
+}
+
+.sidebar-a:hover {
+    color: black;
     font-weight: bold;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 50px;
-    transition: .5s;
-    cursor: pointer;
-  }
+}
 
-  .side-bar > ul > li {
-    position: relative;
-    width: 166px;
-  }
-  
-  .side-bar > ul > li:hover > ul {
-    display: block;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
-    left: 165%;
-    width: 165%;
-  }
+/* 
+메뉴 버튼 디자인
+- 화면에 고정하고 모든 화면보다 우선 표시되도록 처리
+*/
+.container3 > .sidebar > .toggle {
+  position:fixed;
+  top:1rem;
+  left:1rem;
+  z-index:100000;
 
-  .side-bar ul ul {
-    display: none;
-  }
-  
-  .side-bar ul li.active > ul {
-    display: block;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
-    left: 165%;
-    width: 165%;
-  }
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  width:2.5rem;
+  height:2.5rem;
+
+  border:3px solid black;
+}
+
+.container3.collapse > .sidebar > .toggle{}
+
+/* 
+메뉴와 화면이 겹치는 현상을 해결하기 위해 스타일 추가 
+- 사이드바는 상단 여백을 부여
+- 컨텐츠영역은 좌측 여백을 숨김 상태일 경우 부여(transition 설정)
+*/
+.container3 > .sidebar {
+  padding-top: 4.5rem;
+}
+.container3.collapse > .contents {
+  padding-left: 4.5rem;
+}
+
+/*
+메뉴를 더 잘 보이도록 변경
+- span 3개를 배치하여 디자인 부여
+*/
+.container3 > .sidebar > .toggle > span {
+  position:absolute;
+
+  width:80%;
+  height:11%;
+
+  background-color:black;
+}
+
+/*
+<div class="container3"> 일 경우 메뉴 모양을 표시
+<div class="container3 collapse"> 일 경우 x 모양을 표시
+*/
+.container3 > .sidebar > .toggle > span:nth-child(1){
+  top:50%;
+  left:0%;
+  width:100%;
+  transform:translateY(-50%) rotate(45deg);
+}
+.container3 > .sidebar > .toggle > span:nth-child(2){
+  display:none;
+}
+.container3 > .sidebar > .toggle > span:nth-child(3){
+  top:50%;
+  left:0%;
+  width:100%;
+  transform:translateY(-50%) rotate(-45deg);
+}
+
+.container3.collapse > .sidebar > .toggle > span:nth-child(1){
+  top:15%;
+  left:10%;
+  width:80%;
+  transform:none;
+}
+.container3.collapse > .sidebar > .toggle > span:nth-child(2){
+  top:50%;
+  left:10%;
+  transform:translateY(-50%);
+  display:block;
+}
+.container3.collapse > .sidebar > .toggle > span:nth-child(3){
+  top:85%;
+  left:10%;
+  width:80%;
+  transform:translateY(-100%);
+}
+
+/* 부드럽게 처리 */
+.container3 > .sidebar > .toggle > span {
+  transition:all 0.2s linear;
+}

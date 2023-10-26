@@ -49,17 +49,27 @@ def pagination_route(page):
 
 @app.route('/store_item', methods=['POST'])
 def store_item(): 
-    conn = get_db()
-    c = conn.cursor()
+    # conn = get_db()
+    # c = conn.cursor()
 
-    item_info = request.json
+    # item_info = request.json
 
-    image_binary = convert_image_to_binary(item_info['image']) #이미지 -> 바이너리
+    # image_binary = convert_image_to_binary(item_info['image']) #이미지 -> 바이너리
 
-    c.execute("INSERT INTO items (image, type) VALUES (?, ?)", (image_binary, item_info['type']))
-    conn.commit()
+    # c.execute("INSERT INTO items (image, type) VALUES (?, ?)", (image_binary, item_info['type']))
+    # conn.commit()
 
-    return 'Item stored successfully!'
+    # return 'Item stored successfully!'
+
+    getData = request.get_data("data").decode("utf-8")
+
+    objs = ["person", "cell phone", "suitcase", "backpack"]
+    result = []
+    for obj in objs:
+        if obj in getData:
+            result.append(obj)
+    print(result)
+    return "True"
 
 @app.route('/get_item', methods=['GET'])
 def get_item():
@@ -77,4 +87,4 @@ def get_item():
         return str(item_details)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)

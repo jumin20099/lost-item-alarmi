@@ -36,76 +36,7 @@
     </div>
 
     <div id="result">검색 결과가 여기에 표시됩니다.</div>
-
-    <aside class="side-bar">
-        <section class="side-bar__icon-box">
-            <section class="side-bar__icon-1">
-                <div style="height: 3px;"></div>
-                <div style="height: 3px;"></div>
-                <div style="margin-top: 1px; height: 3px;"></div>
-            </section>
-        </section>
-        <ul>
-            <li>
-                <a class="sidebar-a" href="/"><i class="fa-solid fa-house"></i></a>
-            </li>
-            <li>
-                <a class="sidebar-a">분실물</a>
-                <ul>
-                    <li><a href="#">분실된 휴대폰 모두 보기</a></li>
-                    <li><a href="#">분실된 무선 이어폰 모두 보기</a></li>
-                    <li><a href="#">분실된 지갑 모두 보기</a></li>
-                    <li><a href="#">분실된 가방 모두 보기</a></li>
-                    <li><a href="#">분실물 모두 보기</a></li>
-                </ul>
-            </li>
-            <li>
-                <a class="sidebar-a">분실물 찾는 법</a>
-                <ul>
-                    <li><a href="https://m.blog.naver.com/nyjloving/222775764518" target="_blank">대중교통별 분실물 찾는 방법 (링크) </a></li>
-                </ul>
-            </li>
-            <li>
-                <a class="sidebar-a">menu4</a>
-            </li>
-        </ul>
-    </aside>
-
-    <script>
-        function getItemsByCategory() {
-            var buttons = document.getElementsByClassName('btn');
-            var category;
-            for (var i = 0; i < buttons.length; i++) {
-                if (buttons[i].classList.contains('active')) {
-                    category = buttons[i].id;
-                    break;
-                }
-            }
-
-            var resultDiv = document.getElementById('result');
-
-            // Ajax로 서버에 데이터 요청
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/get_item?user_input=' + category, true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var response = xhr.responseText;
-                    resultDiv.innerHTML = response;
-                }
-            };
-            xhr.send();
-        }
-    </script>
-
-    <!-- 티처블 머신 -->
-    <!-- <div id="webcam">
-        <div>Teachable Machine Image Model</div>
-        <button id="webcam-bt" type="button" onclick="init()">Start</button>
-        <div id="webcam-container"></div>
-        <div id="label-container"></div>
-        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-    </div> -->
+    
     <div id="pagination">
         <ul>
             {% for page_num in range(1, 11) %}
@@ -113,80 +44,85 @@
             {% endfor %}
         </ul>
     </div>
-    <!-- <script type="text/javascript">
-        // More API functions here:
-        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+    <!-- 메인 영역 -->
+<div class="container3 collapse">
 
-        // the link to your model provided by Teachable Machine export panel
-        const URL = "{{ url_for('static', filename='my_model/') }}";
+    <!-- 사이드바 영역 -->
+    <div class="sidebar">
+  
+      <!-- 메뉴 상태 변경 버튼 추가 -->
+      <label class="toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <div class="sidebar-div">
+        <a class="sidebar-a" href="#">분실된 모든 휴대폰 보기</a> <br>
+      </div>
+      <div class="sidebar-div">
+        <a class="sidebar-a" href="#">분실된 모든 무선 이어폰 보기</a> <br>
+      </div>
+      <div class="sidebar-div">
+        <a class="sidebar-a" href="#">분실된 모든 지갑 보기</a> <br>
+      </div>
+      <div class="sidebar-div">
+        <a class="sidebar-a" href="#">분실된 모든 가방 보기</a> <br>
+      </div>
+      <div class="sidebar-div">
+        <a class="sidebar-a" href="https://m.blog.naver.com/nyjloving/222775764518" target="_blank">분실물 찾는 법</a>
+      </div>
+    </div>
 
-        let model, webcam, labelContainer, maxPredictions;
+</div>
 
-        // Load the image model and setup the webcam
-        async function init() {
-            const modelURL = URL + "model.json";
-            const metadataURL = URL + "metadata.json";
-
-            // load the model and metadata
-            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-            // or files from your local hard drive
-            // Note: the pose library adds "tmImage" object to your window (window.tmImage)
-            model = await tmImage.load(modelURL, metadataURL);
-            maxPredictions = model.getTotalClasses();
-
-            // Convenience function to setup a webcam
-            const flip = true; // whether to flip the webcam
-            webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
-            await webcam.setup(); // request access to the webcam
-            await webcam.play();
-            window.requestAnimationFrame(loop);
-
-            // append elements to the DOM
-            document.getElementById("webcam-container").appendChild(webcam.canvas);
-            labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
-                labelContainer.appendChild(document.createElement("div"));
+<script>
+    function getItemsByCategory() {
+        var buttons = document.getElementsByClassName('btn');
+        var category;
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].classList.contains('active')) {
+                category = buttons[i].id;
+                break;
             }
         }
 
-        async function loop() {
-            webcam.update(); // update the webcam frame
-            await predict();
-            window.requestAnimationFrame(loop);
-        }
+        var resultDiv = document.getElementById('result');
 
-        // run the webcam image through the image model
-        async function predict() {
-            // predict can take in an image, video or canvas html element
-            const prediction = await model.predict(webcam.canvas);
-            for (let i = 0; i < maxPredictions; i++) {
-                const classPrediction =
-                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                labelContainer.childNodes[i].innerHTML = classPrediction;
+        // Ajax로 서버에 데이터 요청
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/get_item?user_input=' + category, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = xhr.responseText;
+                resultDiv.innerHTML = response;
             }
-        }
-    </script> -->
+        };
+        xhr.send();
+    }
+</script>
 
-<script> //사이드바 토글
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebarItems = document.querySelectorAll('.sidebar-a');
-
-    sidebarItems.forEach(function(item) {
-        item.addEventListener('click', function() {
-            const submenu = this.nextElementSibling;
-            submenu.classList.toggle('show-submenu');
-        });
+<script> //사이드바
+    //메뉴 상태 변경 버튼을 누르면 .container 상태를 변경하도록 처리
+    window.addEventListener("load", function(){
+    document.querySelector(".toggle").addEventListener("click", function(){
+        document.querySelector(".container3").classList.toggle("collapse");
     });
+    });
+    window.addEventListener("load", function(){
+        var container = document.querySelector(".container3");
+        container.classList.add("collapse");
+    });
+    window.addEventListener("load", function() {
+    const toggle = document.querySelector(".toggle");
+    const sidebar = document.querySelector(".sidebar");
+    const menu = document.querySelector(".menu");
 
-    const sidebarIcon = document.querySelector('.side-bar__icon-box');
-
-    sidebarIcon.addEventListener('click', function() {
-        const sidebar = document.querySelector('.side-bar');
-        sidebar.classList.toggle('show-sidebar');
+    toggle.addEventListener("click", function() {
+        sidebar.classList.toggle("open");
     });
 });
-
 </script>
+
 
 <script> //페이지네이션
     var currentPage = 1;
@@ -253,107 +189,108 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-    <script> //카테고리 버튼들 (애니메이션)
-        const pathLength = 68 * 2 + 200;
+<script> //카테고리 버튼들 (애니메이션)
+    const pathLength = 68 * 2 + 200;
 
-        class BtnGroup {
-        constructor(group) {
-            this.group = group;
-            this.buttons = Array.prototype.slice.call(
-            this.group.querySelectorAll('.btn'));
+    class BtnGroup {
+    constructor(group) {
+        this.group = group;
+        this.buttons = Array.prototype.slice.call(
+        this.group.querySelectorAll('.btn'));
 
-            this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); 
-            this.svg.setAttribute('viewbox',
-            `-1 -1 ${160 * this.buttons.length + 2} 42`);
+        this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); 
+        this.svg.setAttribute('viewbox',
+        `-1 -1 ${160 * this.buttons.length + 2} 42`);
 
-            this.path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); 
-            this.currentPath = 'M -80, 40';
-            this.currentIndex = -1;
-            this.activateIndex(
-            this.buttons.indexOf(
-            this.group.querySelector('.active')));
+        this.path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); 
+        this.currentPath = 'M -80, 40';
+        this.currentIndex = -1;
+        this.activateIndex(
+        this.buttons.indexOf(
+        this.group.querySelector('.active')));
 
 
-            this.group.appendChild(this.svg);
-            this.svg.appendChild(this.path);
-            this.refreshPath();
-            for (const button of this.buttons) {
-            button.addEventListener('click',
-            e => this.onClick(e));
+        this.group.appendChild(this.svg);
+        this.svg.appendChild(this.path);
+        this.refreshPath();
+        for (const button of this.buttons) {
+        button.addEventListener('click',
+        e => this.onClick(e));
 
+        }
+    }
+
+    onClick(e) {
+        const index = this.buttons.indexOf(e.srcElement || e.target);
+        this.activateIndex(index);
+    }
+
+    refreshPath() {
+        this.path.setAttributeNS(null, 'd', this.currentPath);
+        this.path.style.strokeDashoffset = (-this.path.getTotalLength() + pathLength) * 0.9965;
+    }
+
+    center(index) {
+        return index * 160 + 80;
+    }
+
+    removeClass(str) {
+        if (this.buttons[this.currentIndex]) {
+        this.buttons[this.currentIndex].classList.remove(str);
+        }
+    }
+
+    addClass(str) {
+        if (this.buttons[this.currentIndex]) {
+        this.buttons[this.currentIndex].classList.add(str);
+        }
+    }
+
+    activateIndex(index) {
+        const lastCenter = this.center(this.currentIndex);
+        const nextCenter = this.center(index);
+        const offset = index < this.currentIndex ? -50 : 50;
+        const curve = index < this.currentIndex ? -30 : 30;
+        this.currentPath += `
+        L ${lastCenter + offset}, 40
+        C ${lastCenter + offset + curve}, 40
+            ${lastCenter + offset + curve},  0
+            ${lastCenter + offset},  0
+        L ${lastCenter - offset},  0
+        C ${lastCenter - offset - curve},  0
+            ${lastCenter - offset - curve}, 40
+            ${lastCenter - offset}, 40
+        L ${nextCenter + offset}, 40
+        C ${nextCenter + offset + curve}, 40
+            ${nextCenter + offset + curve},  0
+            ${nextCenter + offset},  0
+        L ${nextCenter - offset},  0
+        C ${nextCenter - offset - curve},  0
+            ${nextCenter - offset - curve}, 40
+            ${nextCenter - offset}, 40
+        L ${nextCenter}, 40
+        `;
+        this.removeClass('active');
+        this.currentIndex = index;
+        this.addClass('active');
+        this.buttons.forEach((button, idx) => {
+            if (idx === index) {
+                button.style.fontWeight = 'bold';
+                button.style.color = 'black';
+            } else {
+                button.style.color = 'gray';
+                button.style.fontWeight = 'bold';
             }
-        }
+        });
+        this.refreshPath();
+    }}
+    ;
 
-        onClick(e) {
-            const index = this.buttons.indexOf(e.srcElement || e.target);
-            this.activateIndex(index);
-        }
+    const groups = Array.prototype.slice.call(document.querySelectorAll('.btn-group'));
+    for (const group of groups) {
+    console.log(new BtnGroup(group));
+    }
+</script>
 
-        refreshPath() {
-            this.path.setAttributeNS(null, 'd', this.currentPath);
-            this.path.style.strokeDashoffset = (-this.path.getTotalLength() + pathLength) * 0.9965;
-        }
-
-        center(index) {
-            return index * 160 + 80;
-        }
-
-        removeClass(str) {
-            if (this.buttons[this.currentIndex]) {
-            this.buttons[this.currentIndex].classList.remove(str);
-            }
-        }
-
-        addClass(str) {
-            if (this.buttons[this.currentIndex]) {
-            this.buttons[this.currentIndex].classList.add(str);
-            }
-        }
-
-        activateIndex(index) {
-            const lastCenter = this.center(this.currentIndex);
-            const nextCenter = this.center(index);
-            const offset = index < this.currentIndex ? -50 : 50;
-            const curve = index < this.currentIndex ? -30 : 30;
-            this.currentPath += `
-            L ${lastCenter + offset}, 40
-            C ${lastCenter + offset + curve}, 40
-                ${lastCenter + offset + curve},  0
-                ${lastCenter + offset},  0
-            L ${lastCenter - offset},  0
-            C ${lastCenter - offset - curve},  0
-                ${lastCenter - offset - curve}, 40
-                ${lastCenter - offset}, 40
-            L ${nextCenter + offset}, 40
-            C ${nextCenter + offset + curve}, 40
-                ${nextCenter + offset + curve},  0
-                ${nextCenter + offset},  0
-            L ${nextCenter - offset},  0
-            C ${nextCenter - offset - curve},  0
-                ${nextCenter - offset - curve}, 40
-                ${nextCenter - offset}, 40
-            L ${nextCenter}, 40
-            `;
-            this.removeClass('active');
-            this.currentIndex = index;
-            this.addClass('active');
-            this.buttons.forEach((button, idx) => {
-                if (idx === index) {
-                    button.style.fontWeight = 'bold';
-                    button.style.color = 'black';
-                } else {
-                    button.style.color = 'gray';
-                    button.style.fontWeight = 'bold';
-                }
-            });
-            this.refreshPath();
-        }}
-        ;
-
-        const groups = Array.prototype.slice.call(document.querySelectorAll('.btn-group'));
-        for (const group of groups) {
-        console.log(new BtnGroup(group));
-        }
-    </script>
 </body>
 </html>
