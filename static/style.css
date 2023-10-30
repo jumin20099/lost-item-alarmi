@@ -294,6 +294,7 @@ button.button {
   height:2.5rem;
 
   border:3px solid black;
+  cursor: pointer;
 }
 
 .container3.collapse > .sidebar > .toggle{}
