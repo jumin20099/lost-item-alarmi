@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css"> 
     <title>분실물 알림이</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Dongle:wght@300&family=Gugi&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="144x144" href="/static/ms-icon-144x144.png">
     <script src="https://kit.fontawesome.com/1c6437545f.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -24,9 +25,9 @@
     </div>
     <div class="container">
         <div class="btn-group">
-            <div id="cellphone" class="btn">휴대폰</div>
+            <div id="cell phone" class="btn">휴대폰</div>
             <div id="earphone" class="btn">무선 이어폰</div>
-            <div class="btn active">분실물을 선택하세요</div>
+            <div class="btn active">최근 분실물</div>
             <div id="wallet" class="btn">지갑</div>
             <div id="backpack" class="btn">가방</div>
         </div>
@@ -36,7 +37,6 @@
     </div>
 
     <div id="result">검색 결과가 여기에 표시됩니다.</div>
-    
     <div id="pagination">
         <ul>
             {% for page_num in range(1, 11) %}
@@ -57,16 +57,7 @@
         <span></span>
       </label>
       <div class="sidebar-div">
-        <a class="sidebar-a" href="#">분실된 모든 휴대폰 보기</a> <br>
-      </div>
-      <div class="sidebar-div">
-        <a class="sidebar-a" href="#">분실된 모든 무선 이어폰 보기</a> <br>
-      </div>
-      <div class="sidebar-div">
-        <a class="sidebar-a" href="#">분실된 모든 지갑 보기</a> <br>
-      </div>
-      <div class="sidebar-div">
-        <a class="sidebar-a" href="#">분실된 모든 가방 보기</a> <br>
+        <a class="sidebar-a" href="/get_all_items">모든 분실물 보기</a> <br>
       </div>
       <div class="sidebar-div">
         <a class="sidebar-a" href="https://m.blog.naver.com/nyjloving/222775764518" target="_blank">분실물 찾는 법</a>
@@ -76,7 +67,7 @@
 </div>
 
 <script>
-    function getItemsByCategory() {
+    function getItemsByCategory() { //카테고리에서 아이템 가져오기
         var buttons = document.getElementsByClassName('btn');
         var category;
         for (var i = 0; i < buttons.length; i++) {
@@ -123,8 +114,30 @@
 });
 </script>
 
+<script>
+    function getItemsByCategory() { 
+        var buttons = document.getElementsByClassName('btn');
+        var category;
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].classList.contains('active')) {
+                category = buttons[i].id;
+                break;
+            }
+        }
 
-<script> //페이지네이션
+        var resultDiv = document.getElementById('result');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/get_item?user_input=' + category, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = xhr.responseText;
+                resultDiv.innerHTML = response;
+            }
+        };
+        xhr.send();
+    }
+
     var currentPage = 1;
     var itemsPerPage = 10;
 
@@ -147,7 +160,6 @@
 
         var ul = document.createElement('ul');
 
-        // 이전 버튼 처리
         if (startIndex > 1) {
             var prevButton = document.createElement('button');
             prevButton.textContent = '이전';
@@ -173,7 +185,6 @@
 
         paginationDiv.appendChild(ul);
 
-        // 다음 버튼 처리
         if (currentPage * itemsPerPage < 100) {
             var nextButton = document.createElement('button');
             nextButton.textContent = '다음';
@@ -185,110 +196,107 @@
         }
     }
 
-    displayItems(1, 10); // 초기 페이지 설정
+    displayItems(1, 10); 
 
-</script>
-
-<script> //카테고리 버튼들 (애니메이션)
     const pathLength = 68 * 2 + 200;
 
     class BtnGroup {
-    constructor(group) {
-        this.group = group;
-        this.buttons = Array.prototype.slice.call(
-        this.group.querySelectorAll('.btn'));
+        constructor(group) {
+            this.group = group;
+            this.buttons = Array.prototype.slice.call(
+                this.group.querySelectorAll('.btn'));
 
-        this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); 
-        this.svg.setAttribute('viewbox',
-        `-1 -1 ${160 * this.buttons.length + 2} 42`);
+            this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); 
+            this.svg.setAttribute('viewbox',
+            `-1 -1 ${160 * this.buttons.length + 2} 42`);
 
-        this.path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); 
-        this.currentPath = 'M -80, 40';
-        this.currentIndex = -1;
-        this.activateIndex(
-        this.buttons.indexOf(
-        this.group.querySelector('.active')));
+            this.path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); 
+            this.currentPath = 'M -80, 40';
+            this.currentIndex = -1;
+            this.activateIndex(
+                this.buttons.indexOf(
+                this.group.querySelector('.active')));
 
 
-        this.group.appendChild(this.svg);
-        this.svg.appendChild(this.path);
-        this.refreshPath();
-        for (const button of this.buttons) {
-        button.addEventListener('click',
-        e => this.onClick(e));
+            this.group.appendChild(this.svg);
+            this.svg.appendChild(this.path);
+            this.refreshPath();
+            for (const button of this.buttons) {
+                button.addEventListener('click',
+                e => this.onClick(e));
 
-        }
-    }
-
-    onClick(e) {
-        const index = this.buttons.indexOf(e.srcElement || e.target);
-        this.activateIndex(index);
-    }
-
-    refreshPath() {
-        this.path.setAttributeNS(null, 'd', this.currentPath);
-        this.path.style.strokeDashoffset = (-this.path.getTotalLength() + pathLength) * 0.9965;
-    }
-
-    center(index) {
-        return index * 160 + 80;
-    }
-
-    removeClass(str) {
-        if (this.buttons[this.currentIndex]) {
-        this.buttons[this.currentIndex].classList.remove(str);
-        }
-    }
-
-    addClass(str) {
-        if (this.buttons[this.currentIndex]) {
-        this.buttons[this.currentIndex].classList.add(str);
-        }
-    }
-
-    activateIndex(index) {
-        const lastCenter = this.center(this.currentIndex);
-        const nextCenter = this.center(index);
-        const offset = index < this.currentIndex ? -50 : 50;
-        const curve = index < this.currentIndex ? -30 : 30;
-        this.currentPath += `
-        L ${lastCenter + offset}, 40
-        C ${lastCenter + offset + curve}, 40
-            ${lastCenter + offset + curve},  0
-            ${lastCenter + offset},  0
-        L ${lastCenter - offset},  0
-        C ${lastCenter - offset - curve},  0
-            ${lastCenter - offset - curve}, 40
-            ${lastCenter - offset}, 40
-        L ${nextCenter + offset}, 40
-        C ${nextCenter + offset + curve}, 40
-            ${nextCenter + offset + curve},  0
-            ${nextCenter + offset},  0
-        L ${nextCenter - offset},  0
-        C ${nextCenter - offset - curve},  0
-            ${nextCenter - offset - curve}, 40
-            ${nextCenter - offset}, 40
-        L ${nextCenter}, 40
-        `;
-        this.removeClass('active');
-        this.currentIndex = index;
-        this.addClass('active');
-        this.buttons.forEach((button, idx) => {
-            if (idx === index) {
-                button.style.fontWeight = 'bold';
-                button.style.color = 'black';
-            } else {
-                button.style.color = 'gray';
-                button.style.fontWeight = 'bold';
             }
-        });
-        this.refreshPath();
-    }}
-    ;
+        }
+
+        onClick(e) {
+            const index = this.buttons.indexOf(e.srcElement || e.target);
+            this.activateIndex(index);
+        }
+
+        refreshPath() {
+            this.path.setAttributeNS(null, 'd', this.currentPath);
+            this.path.style.strokeDashoffset = (-this.path.getTotalLength() + pathLength) * 0.9965;
+        }
+
+        center(index) {
+            return index * 160 + 80;
+        }
+
+        removeClass(str) {
+            if (this.buttons[this.currentIndex]) {
+                this.buttons[this.currentIndex].classList.remove(str);
+            }
+        }
+
+        addClass(str) {
+            if (this.buttons[this.currentIndex]) {
+                this.buttons[this.currentIndex].classList.add(str);
+            }
+        }
+
+        activateIndex(index) {
+            const lastCenter = this.center(this.currentIndex);
+            const nextCenter = this.center(index);
+            const offset = index < this.currentIndex ? -50 : 50;
+            const curve = index < this.currentIndex ? -30 : 30;
+            this.currentPath += `
+            L ${lastCenter + offset}, 40
+            C ${lastCenter + offset + curve}, 40
+                ${lastCenter + offset + curve},  0
+                ${lastCenter + offset},  0
+            L ${lastCenter - offset},  0
+            C ${lastCenter - offset - curve},  0
+                ${lastCenter - offset - curve}, 40
+                ${lastCenter - offset}, 40
+            L ${nextCenter + offset}, 40
+            C ${nextCenter + offset + curve}, 40
+                ${nextCenter + offset + curve},  0
+                ${nextCenter + offset},  0
+            L ${nextCenter - offset},  0
+            C ${nextCenter - offset - curve},  0
+                ${nextCenter - offset - curve}, 40
+                ${nextCenter - offset}, 40
+            L ${nextCenter}, 40
+            `;
+            this.removeClass('active');
+            this.currentIndex = index;
+            this.addClass('active');
+            this.buttons.forEach((button, idx) => {
+                if (idx === index) {
+                    button.style.fontWeight = 'bold';
+                    button.style.color = 'black';
+                } else {
+                    button.style.color = 'gray';
+                    button.style.fontWeight = 'bold';
+                }
+            });
+            this.refreshPath();
+        }
+    }
 
     const groups = Array.prototype.slice.call(document.querySelectorAll('.btn-group'));
     for (const group of groups) {
-    console.log(new BtnGroup(group));
+        console.log(new BtnGroup(group));
     }
 </script>
 

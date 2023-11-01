@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>분실물 알림이</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +16,19 @@
     <link rel="icon" type="image/png" sizes="144x144" href="/static/ms-icon-144x144.png">
     <script src="https://kit.fontawesome.com/1c6437545f.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="overflow: scroll;">
     <div id="logodiv">
         <a href="/">
             <img id="logo" src="/static/logo.png" alt="logo">
         </a>
         <h1>분실물 알림이</h1>
-        <p>데이터가 충분하지 않습니다.</p>
-        <a style="font-size: 50px; font-weight: bold; margin-top: 300px;" href="/">원래 페이지로 돌아가기 <<<</a>
+    </div>
+    <div style="text-align: center; font-weight: bold; margin-top: 30px;" class="result">
+        <ul style="border: 5px solid black; border-radius: 30px; width: 600px; margin: 0 auto;">
+            {% for item in get_all_items %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
